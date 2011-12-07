@@ -3,7 +3,7 @@
 //  XmlPullParserTests
 //
 //  Created by Hoshi Takanori on 11/12/07.
-//  Copyright (c) 2011年 -. All rights reserved.
+//  Copyright (c) 2011 -. All rights reserved.
 //
 
 #import "XmlPullParserTests.h"
@@ -13,14 +13,14 @@
 - (void)setUp
 {
     [super setUp];
-    
+
     // Set-up code here.
 }
 
 - (void)tearDown
 {
     // Tear-down code here.
-    
+
     [super tearDown];
 }
 

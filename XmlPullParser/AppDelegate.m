@@ -3,28 +3,37 @@
 //  XmlPullParser
 //
 //  Created by Hoshi Takanori on 11/12/07.
-//  Copyright (c) 2011年 -. All rights reserved.
+//  Copyright (c) 2011 -. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "RootViewController.h"
 
-@implementation AppDelegate
-
-@synthesize window = _window;
-
-- (void)dealloc
-{
-    [_window release];
-    [super dealloc];
+@implementation AppDelegate {
+    UIWindow *window;
+    UINavigationController *navigationController;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+    window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    RootViewController *rootViewController = [[RootViewController alloc] initWithStyle:UITableViewStylePlain];
+    navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    [rootViewController release];
+    if ([window respondsToSelector:@selector(setRootViewController:)]) {
+        window.rootViewController = navigationController;
+    } else {
+        [window addSubview:navigationController.view];
+    }
+    [window makeKeyAndVisible];
     return YES;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    /*
+     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+     */
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -35,14 +44,6 @@
      */
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    /*
-     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-     If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-     */
-}
-
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     /*
@@ -50,10 +51,11 @@
      */
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void)applicationDidEnterBackground:(UIApplication *)application
 {
     /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+     If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
 }
 
@@ -64,6 +66,13 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (void)dealloc
+{
+    [window release];
+    [navigationController release];
+    [super dealloc];
 }
 
 @end

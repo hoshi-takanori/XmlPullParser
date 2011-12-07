@@ -18,6 +18,10 @@
 		8D4EB262148F5B0500284076 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D4EB249148F5B0500284076 /* Foundation.framework */; };
 		8D4EB26A148F5B0500284076 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D4EB268148F5B0500284076 /* InfoPlist.strings */; };
 		8D4EB26D148F5B0500284076 /* XmlPullParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D4EB26C148F5B0500284076 /* XmlPullParserTests.m */; };
+		8D4EB278148F5B3600284076 /* XmlPullParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D4EB277148F5B3600284076 /* XmlPullParser.m */; };
+		8D4EB27B148F5E9400284076 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D4EB27A148F5E9400284076 /* RootViewController.m */; };
+		8D4EB27F148F9EE900284076 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D4EB27D148F9EE900284076 /* DetailViewController.m */; };
+		8D4EB280148F9EE900284076 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D4EB27E148F9EE900284076 /* DetailViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,18 +39,25 @@
 		8D4EB247148F5B0500284076 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8D4EB249148F5B0500284076 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8D4EB24B148F5B0500284076 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		8D4EB24F148F5B0500284076 /* XmlPullParser-Info.plist */ = {isa = PBXFileReference; path = "XmlPullParser-Info.plist"; sourceTree = "<group>"; };
+		8D4EB24F148F5B0500284076 /* XmlPullParser-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "XmlPullParser-Info.plist"; sourceTree = "<group>"; };
 		8D4EB251148F5B0500284076 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D4EB253148F5B0500284076 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8D4EB255148F5B0500284076 /* XmlPullParser-Prefix.pch */ = {isa = PBXFileReference; path = "XmlPullParser-Prefix.pch"; sourceTree = "<group>"; };
-		8D4EB256148F5B0500284076 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		8D4EB255148F5B0500284076 /* XmlPullParser-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XmlPullParser-Prefix.pch"; sourceTree = "<group>"; };
+		8D4EB256148F5B0500284076 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D4EB257148F5B0500284076 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8D4EB25E148F5B0500284076 /* XmlPullParserTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XmlPullParserTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D4EB25F148F5B0500284076 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		8D4EB267148F5B0500284076 /* XmlPullParserTests-Info.plist */ = {isa = PBXFileReference; path = "XmlPullParserTests-Info.plist"; sourceTree = "<group>"; };
+		8D4EB267148F5B0500284076 /* XmlPullParserTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "XmlPullParserTests-Info.plist"; sourceTree = "<group>"; };
 		8D4EB269148F5B0500284076 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8D4EB26B148F5B0500284076 /* XmlPullParserTests.h */ = {isa = PBXFileReference; path = XmlPullParserTests.h; sourceTree = "<group>"; };
+		8D4EB26B148F5B0500284076 /* XmlPullParserTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XmlPullParserTests.h; sourceTree = "<group>"; };
 		8D4EB26C148F5B0500284076 /* XmlPullParserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XmlPullParserTests.m; sourceTree = "<group>"; };
+		8D4EB276148F5B3600284076 /* XmlPullParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlPullParser.h; sourceTree = "<group>"; };
+		8D4EB277148F5B3600284076 /* XmlPullParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XmlPullParser.m; sourceTree = "<group>"; };
+		8D4EB279148F5E9400284076 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		8D4EB27A148F5E9400284076 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		8D4EB27C148F9EE900284076 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		8D4EB27D148F9EE900284076 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		8D4EB27E148F9EE900284076 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +87,8 @@
 		8D4EB238148F5B0400284076 = {
 			isa = PBXGroup;
 			children = (
+				8D4EB276148F5B3600284076 /* XmlPullParser.h */,
+				8D4EB277148F5B3600284076 /* XmlPullParser.m */,
 				8D4EB24D148F5B0500284076 /* XmlPullParser */,
 				8D4EB265148F5B0500284076 /* XmlPullParserTests */,
 				8D4EB246148F5B0500284076 /* Frameworks */,
@@ -108,6 +121,11 @@
 			children = (
 				8D4EB256148F5B0500284076 /* AppDelegate.h */,
 				8D4EB257148F5B0500284076 /* AppDelegate.m */,
+				8D4EB279148F5E9400284076 /* RootViewController.h */,
+				8D4EB27A148F5E9400284076 /* RootViewController.m */,
+				8D4EB27C148F9EE900284076 /* DetailViewController.h */,
+				8D4EB27D148F9EE900284076 /* DetailViewController.m */,
+				8D4EB27E148F9EE900284076 /* DetailViewController.xib */,
 				8D4EB24E148F5B0500284076 /* Supporting Files */,
 			);
 			path = XmlPullParser;
@@ -215,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D4EB252148F5B0500284076 /* InfoPlist.strings in Resources */,
+				8D4EB280148F9EE900284076 /* DetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +270,9 @@
 			files = (
 				8D4EB254148F5B0500284076 /* main.m in Sources */,
 				8D4EB258148F5B0500284076 /* AppDelegate.m in Sources */,
+				8D4EB278148F5B3600284076 /* XmlPullParser.m in Sources */,
+				8D4EB27B148F5E9400284076 /* RootViewController.m in Sources */,
+				8D4EB27F148F9EE900284076 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,7 +333,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -328,7 +350,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -338,6 +360,10 @@
 		8D4EB271148F5B0500284076 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XmlPullParser/XmlPullParser-Prefix.pch";
 				INFOPLIST_FILE = "XmlPullParser/XmlPullParser-Info.plist";
@@ -349,6 +375,10 @@
 		8D4EB272148F5B0500284076 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XmlPullParser/XmlPullParser-Prefix.pch";
 				INFOPLIST_FILE = "XmlPullParser/XmlPullParser-Info.plist";
