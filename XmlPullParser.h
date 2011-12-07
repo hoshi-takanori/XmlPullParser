@@ -30,10 +30,11 @@ typedef enum {
 - (id)initWithData:(NSData *)data;
 - (id)initWithStream:(NSInputStream *)stream;
 
-- (XmlPullParserEventType)next;
+- (BOOL)next;
 - (NSString *)nextText;
 
-- (BOOL)isStartTag:(NSString *)tag;
-- (BOOL)isEndTag:(NSString *)tag;
+- (BOOL)isStartTag;
+- (BOOL)isStartTagWithName:(NSString *)tag;
+- (BOOL)isEndTagWithName:(NSString *)tag;
 
 @end

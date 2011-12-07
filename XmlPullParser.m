@@ -72,7 +72,7 @@ enum {
     return parser.columnNumber;
 }
 
-- (XmlPullParserEventType)next
+- (BOOL)next
 {
     if (eventType != XmlPullParserEndDocument) {
         if (conditionLock == nil) {
@@ -89,7 +89,7 @@ enum {
         }
     }
 
-    return eventType;
+    return eventType != XmlPullParserEndDocument;
 }
 
 - (NSString *)nextText
@@ -98,14 +98,19 @@ enum {
     return text;
 }
 
-- (BOOL)isStartTag:(NSString *)tag
+- (BOOL)isStartTag
 {
-    return eventType == XmlPullParserStartTag && [elementName isEqual:tag];
+    return eventType == XmlPullParserStartTag;
 }
 
-- (BOOL)isEndTag:(NSString *)tag
+- (BOOL)isStartTagWithName:(NSString *)name
 {
-    return eventType == XmlPullParserEndTag && [elementName isEqual:tag];
+    return eventType == XmlPullParserStartTag && [elementName isEqual:name];
+}
+
+- (BOOL)isEndTagWithName:(NSString *)name
+{
+    return eventType == XmlPullParserEndTag && [elementName isEqual:name];
 }
 
 #pragma mark -

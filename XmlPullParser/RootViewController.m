@@ -24,14 +24,11 @@
     items = [[NSMutableArray alloc] init];
 
     XmlPullParser *parser = [[XmlPullParser alloc] initWithContentsOfURL:[NSURL URLWithString:RSS]];
-    while ([parser next] != XmlPullParserEndDocument) {
-        if ([parser isStartTag:@"item"]) {
+    while ([parser next]) {
+        if ([parser isStartTagWithName:@"item"]) {
             NSMutableDictionary *item = [[NSMutableDictionary alloc] init];
-            while ([parser next] != XmlPullParserEndDocument) {
-                if ([parser isEndTag:@"item"]) {
-                    break;
-                }
-                if (parser.eventType == XmlPullParserStartTag) {
+            while ([parser next] && ! [parser isEndTagWithName:@"item"]) {
+                if ([parser isStartTag]) {
                     NSString *tag = parser.elementName;
                     if ([tag isEqual:@"title"] || [tag isEqual:@"pubDate"] || [tag isEqual:@"description"]) {
                         NSString *value = [parser nextText];
