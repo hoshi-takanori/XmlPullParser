@@ -15,6 +15,10 @@ enum {
 
 @interface XmlPullParser () <NSXMLParserDelegate>
 
+@property (nonatomic, copy) NSString *elementName;
+@property (nonatomic, copy) NSDictionary *attributes;
+@property (nonatomic, copy) NSString *text;
+
 - (void)setEventType:(XmlPullParserEventType)newEventType;
 
 @end
@@ -22,11 +26,6 @@ enum {
 @implementation XmlPullParser {
     NSXMLParser *parser;
     NSConditionLock *conditionLock;
-    XmlPullParserEventType eventType;
-    NSInteger depth;
-    NSString *elementName;
-    NSDictionary *attributes;
-    NSString *text;
 }
 
 @synthesize eventType;
@@ -37,11 +36,11 @@ enum {
 
 #pragma mark -
 
-- (id)initWithXMLParser:(NSXMLParser *)newParser
+- (id)initWithXMLParser:(NSXMLParser *)theParser
 {
     self = [super init];
     if (self != nil) {
-        parser = [newParser retain];
+        parser = [theParser retain];
         parser.delegate = self;
     }
     return self;
@@ -75,6 +74,7 @@ enum {
 - (BOOL)next
 {
     if (eventType != XmlPullParserEndDocument) {
+        // start or resume the coroutine.
         if (conditionLock == nil) {
             conditionLock = [[NSConditionLock alloc] initWithCondition:XmlPullParserConditionNormal];
             [self performSelectorInBackground:@selector(parse) withObject:nil];
@@ -82,6 +82,7 @@ enum {
             [conditionLock unlockWithCondition:XmlPullParserConditionNormal];
         }
 
+        // wait for the coroutine to yield.
         [conditionLock lockWhenCondition:XmlPullParserConditionEvent];
 
         if (eventType == XmlPullParserEndDocument) {
@@ -131,22 +132,17 @@ enum {
     if (eventType != XmlPullParserEndDocument) {
         eventType = newEventType;
 
-        if (eventType != XmlPullParserStartTag && eventType != XmlPullParserEndTag) {
-            [elementName release];
-            elementName = nil;
-            [attributes release];
-            attributes = nil;
-        }
-        if (eventType != XmlPullParserText) {
-            [text release];
-            text = nil;
-        }
-
+        // yield the coroutine.
         [conditionLock unlockWithCondition:XmlPullParserConditionEvent];
 
         if (eventType != XmlPullParserEndDocument) {
+            // wait to be resumed.
             [conditionLock lockWhenCondition:XmlPullParserConditionNormal];
         }
+
+        self.elementName = nil;
+        self.attributes = nil;
+        self.text = nil;
     }
 }
 
@@ -155,19 +151,19 @@ enum {
     self.eventType = XmlPullParserStartDocument;
 }
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)newElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)newAttributes
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)theElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {
-    elementName = [newElementName copy];
-    if (newAttributes.count > 0) {
-        attributes = [newAttributes copy];
+    self.elementName = theElementName;
+    if (attributeDict.count > 0) {
+        self.attributes = attributeDict;
     }
     depth++;
     self.eventType = XmlPullParserStartTag;
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)newElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)theElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
-    elementName = [newElementName copy];
+    self.elementName = theElementName;
     depth--;
     self.eventType = XmlPullParserEndTag;
 }
@@ -179,23 +175,24 @@ enum {
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
-    text = [string copy];
+    self.text = string;
     self.eventType = XmlPullParserText;
 }
 
 - (void)parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString
 {
-    NSLog(@"WHITESPACE");
+    // this delegate method is never called because of issues related to libxml2.
+    // https://devforums.apple.com/message/40425#40425
 }
 
 - (void)parser:(NSXMLParser *)parser foundComment:(NSString *)comment
 {
-    NSLog(@"COMMENT <!--%@-->", comment);
+    // ignore comments.
 }
 
 - (void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock
 {
-    text = [[NSString alloc] initWithData:CDATABlock encoding:NSUTF8StringEncoding];
+    self.text = [[[NSString alloc] initWithData:CDATABlock encoding:NSUTF8StringEncoding] autorelease];
     self.eventType = XmlPullParserText;
 }
 
