@@ -18,6 +18,7 @@ enum {
 @property (nonatomic, copy) NSString *elementName;
 @property (nonatomic, copy) NSDictionary *attributes;
 @property (nonatomic, copy) NSString *text;
+@property (nonatomic, copy) NSError *error;
 
 - (void)setEventType:(XmlPullParserEventType)newEventType;
 
@@ -33,6 +34,7 @@ enum {
 @synthesize elementName;
 @synthesize attributes;
 @synthesize text;
+@synthesize error;
 
 #pragma mark -
 
@@ -74,15 +76,16 @@ enum {
 - (BOOL)next
 {
     if (eventType != XmlPullParserEndDocument) {
-        // start or resume the coroutine.
         if (conditionLock == nil) {
+            // start the coroutine (1).
             conditionLock = [[NSConditionLock alloc] initWithCondition:XmlPullParserConditionNormal];
             [self performSelectorInBackground:@selector(parse) withObject:nil];
         } else {
+            // resume the coroutine (3).
             [conditionLock unlockWithCondition:XmlPullParserConditionNormal];
         }
 
-        // wait for the coroutine to yield.
+        // wait for the coroutine to yield (2).
         [conditionLock lockWhenCondition:XmlPullParserConditionEvent];
 
         if (eventType == XmlPullParserEndDocument) {
@@ -97,6 +100,17 @@ enum {
 {
     [self next];
     return text;
+}
+
+- (void)abort
+{
+    if (eventType != XmlPullParserEndDocument) {
+        eventType = XmlPullParserEndDocument;
+        [parser abortParsing];
+
+        // resume for aborting (4).
+        [conditionLock unlockWithCondition:XmlPullParserConditionNormal];
+    }
 }
 
 - (BOOL)isStartTag
@@ -120,6 +134,7 @@ enum {
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
+    // start the coroutine (1).
     [conditionLock lockWhenCondition:XmlPullParserConditionNormal];
     [parser parse];
     self.eventType = XmlPullParserEndDocument;
@@ -132,18 +147,23 @@ enum {
     if (eventType != XmlPullParserEndDocument) {
         eventType = newEventType;
 
-        // yield the coroutine.
+        // yield the coroutine (2).
         [conditionLock unlockWithCondition:XmlPullParserConditionEvent];
 
-        if (eventType != XmlPullParserEndDocument) {
-            // wait to be resumed.
+        if (newEventType != XmlPullParserEndDocument) {
+            // wait to be resumed (3).
             [conditionLock lockWhenCondition:XmlPullParserConditionNormal];
-        }
 
-        self.elementName = nil;
-        self.attributes = nil;
-        self.text = nil;
+            // aborted (4).
+            if (eventType == XmlPullParserEndDocument) {
+                [conditionLock unlock];
+            }
+        }
     }
+
+    self.elementName = nil;
+    self.attributes = nil;
+    self.text = nil;
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
@@ -170,7 +190,9 @@ enum {
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
-    NSLog(@"ERROR %@", parseError);
+    if (parseError.code != NSXMLParserDelegateAbortedParseError) {
+        self.error = parseError;
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
@@ -205,6 +227,7 @@ enum {
     [elementName release];
     [attributes release];
     [text release];
+    [error release];
     [super dealloc];
 }
 

@@ -25,6 +25,7 @@ typedef enum {
 @property (nonatomic, readonly, copy) NSString *elementName;
 @property (nonatomic, readonly, copy) NSDictionary *attributes;
 @property (nonatomic, readonly, copy) NSString *text;
+@property (nonatomic, readonly, copy) NSError *error;
 
 - (id)initWithContentsOfURL:(NSURL *)url;
 - (id)initWithData:(NSData *)data;
@@ -32,6 +33,8 @@ typedef enum {
 
 - (BOOL)next;
 - (NSString *)nextText;
+
+- (void)abort;
 
 - (BOOL)isStartTag;
 - (BOOL)isStartTagWithName:(NSString *)tag;

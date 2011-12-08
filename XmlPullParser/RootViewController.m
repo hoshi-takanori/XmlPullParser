@@ -16,9 +16,11 @@
     NSMutableArray *items;
 }
 
-- (void)loadRSS:(id)sender
+- (void)loadRSS:(UIBarButtonItem *)sender
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
+    int limit = sender.tag;
 
     [items release];
     items = [[NSMutableArray alloc] init];
@@ -42,7 +44,20 @@
                 [items addObject:item];
             }
             [item release];
+
+            if (limit > 0 && items.count >= limit) {
+                [parser abort];
+            }
         }
+    }
+    if (parser.error != nil) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"XML Parse Error"
+                                                            message:parser.error.localizedDescription
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
     }
     [parser release];
 
@@ -64,12 +79,20 @@
     self.navigationItem.backBarButtonItem = backItem;
     [backItem release];
 
-    UIBarButtonItem *loadItem = [[UIBarButtonItem alloc] initWithTitle:@"Load"
-                                                                 style:UIBarButtonItemStyleBordered
-                                                                target:self
-                                                                action:@selector(loadRSS:)];
-    self.navigationItem.rightBarButtonItem = loadItem;
-    [loadItem release];
+    UIBarButtonItem *load10Item = [[UIBarButtonItem alloc] initWithTitle:@"10"
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(loadRSS:)];
+    load10Item.tag = 10;
+    self.navigationItem.leftBarButtonItem = load10Item;
+    [load10Item release];
+
+    UIBarButtonItem *loadAllItem = [[UIBarButtonItem alloc] initWithTitle:@"All"
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:self
+                                                                   action:@selector(loadRSS:)];
+    self.navigationItem.rightBarButtonItem = loadAllItem;
+    [loadAllItem release];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
