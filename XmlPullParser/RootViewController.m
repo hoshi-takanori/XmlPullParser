@@ -9,24 +9,44 @@
 #import "RootViewController.h"
 #import "DetailViewController.h"
 #import "XmlPullParser.h"
+#import "CancelableHUD.h"
 
 #define RSS @"http://developer.apple.com/news/rss/news.rss"
 
 @implementation RootViewController {
     NSMutableArray *items;
+    int limit;
+    BOOL cancel;
 }
 
 - (void)loadRSS:(UIBarButtonItem *)sender
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
-    int limit = sender.tag;
-
     [items release];
     items = [[NSMutableArray alloc] init];
+    [self.tableView reloadData];
 
-    XmlPullParser *parser = [[XmlPullParser alloc] initWithContentsOfURL:[NSURL URLWithString:RSS]];
-    while ([parser next]) {
+    limit = sender.tag;
+    cancel = NO;
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [CancelableHUD showWithCancelTarget:self selector:@selector(cancelLoading)];
+
+    [self performSelectorInBackground:@selector(loadRSSAtURL:) withObject:[NSURL URLWithString:RSS]];
+}
+
+- (void)cancelLoading
+{
+    cancel = YES;
+}
+
+- (void)loadRSSAtURL:(NSURL *)url
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    XmlPullParser *parser = [[XmlPullParser alloc] initWithContentsOfURL:url];
+
+    int count = 0;
+    while (! cancel && [parser next]) {
         if ([parser isStartTagWithName:@"item"]) {
             NSMutableDictionary *item = [[NSMutableDictionary alloc] init];
             while ([parser next] && ! [parser isEndTagWithName:@"item"]) {
@@ -41,29 +61,43 @@
                 }
             }
             if ([item objectForKey:@"title"] != nil) {
-                [items addObject:item];
+                [self performSelectorOnMainThread:@selector(addItem:) withObject:item waitUntilDone:NO];
             }
             [item release];
 
-            if (limit > 0 && items.count >= limit) {
+            if (limit > 0 && ++count >= limit) {
                 [parser abort];
             }
         }
     }
-    if (parser.error != nil) {
+
+    [self performSelectorOnMainThread:@selector(loadEnded:) withObject:parser.error waitUntilDone:NO];
+
+    [parser release];
+
+    [pool release];
+}
+
+- (void)addItem:(NSDictionary *)item
+{
+    [items addObject:item];
+    [self.tableView reloadData];
+}
+
+- (void)loadEnded:(NSError *)error
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [CancelableHUD dismiss];
+
+    if (error != nil) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"XML Parse Error"
-                                                            message:parser.error.localizedDescription
+                                                            message:error.localizedDescription
                                                            delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
         [alertView show];
         [alertView release];
     }
-    [parser release];
-
-    [self.tableView reloadData];
-
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)viewDidLoad

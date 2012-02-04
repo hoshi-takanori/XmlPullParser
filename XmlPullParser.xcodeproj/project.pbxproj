@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D01A47414DA9F70000AE146 /* CancelableHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01A47314DA9F70000AE146 /* CancelableHUD.m */; };
 		8D4EB248148F5B0500284076 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D4EB247148F5B0500284076 /* UIKit.framework */; };
 		8D4EB24A148F5B0500284076 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D4EB249148F5B0500284076 /* Foundation.framework */; };
 		8D4EB24C148F5B0500284076 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D4EB24B148F5B0500284076 /* CoreGraphics.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D01A47214DA9F70000AE146 /* CancelableHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelableHUD.h; sourceTree = "<group>"; };
+		8D01A47314DA9F70000AE146 /* CancelableHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelableHUD.m; sourceTree = "<group>"; };
 		8D4EB243148F5B0500284076 /* XmlPullParser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XmlPullParser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D4EB247148F5B0500284076 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8D4EB249148F5B0500284076 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -89,6 +92,8 @@
 			children = (
 				8D4EB276148F5B3600284076 /* XmlPullParser.h */,
 				8D4EB277148F5B3600284076 /* XmlPullParser.m */,
+				8D01A47214DA9F70000AE146 /* CancelableHUD.h */,
+				8D01A47314DA9F70000AE146 /* CancelableHUD.m */,
 				8D4EB24D148F5B0500284076 /* XmlPullParser */,
 				8D4EB265148F5B0500284076 /* XmlPullParserTests */,
 				8D4EB246148F5B0500284076 /* Frameworks */,
@@ -273,6 +278,7 @@
 				8D4EB278148F5B3600284076 /* XmlPullParser.m in Sources */,
 				8D4EB27B148F5E9400284076 /* RootViewController.m in Sources */,
 				8D4EB27F148F9EE900284076 /* DetailViewController.m in Sources */,
+				8D01A47414DA9F70000AE146 /* CancelableHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +446,7 @@
 				8D4EB272148F5B0500284076 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8D4EB273148F5B0500284076 /* Build configuration list for PBXNativeTarget "XmlPullParserTests" */ = {
 			isa = XCConfigurationList;
@@ -448,6 +455,7 @@
 				8D4EB275148F5B0500284076 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
